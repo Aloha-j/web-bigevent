@@ -1,15 +1,19 @@
 
 $.ajaxPrefilter(function (options) {
-  options.url = 'http://big-event-api-t.itheima.net' + options.url
+  options.url = 'http://api-breakingnews-web.itheima.net' + options.url
 
   if (options.url.indexOf('/my/') !== -1) {
-    options.header = {
+    options.headers = {
       Authorization: localStorage.getItem('token') || ''
     }
   }
-  options.Complete = function (res) {
-    if (res.responseJSON.status === 1 && res.responseJSON.message === '身份认证失败!') {
+  options.complete = function (res) {
+    // console.log(res);
+    if (res.responseJSON.status === 1 && res.responseJSON.message === '身份认证失败！') {
+
+      console.log(res);
       localStorage.removeItem('token')
+
       location.href = '/login.html'
     }
   }
